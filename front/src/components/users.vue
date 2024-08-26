@@ -84,7 +84,7 @@ export default {
     headers: [
       { key: 'id', title: 'ID' },
       { key: 'username', title: 'Usuário' },
-      { key: 'password', title: 'Senha' },
+      { key: 'perfil.perfil', title: 'Perfil' },
       { key: 'actions', title: "Ações"  },
     ],
   }),

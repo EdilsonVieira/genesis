@@ -7,7 +7,7 @@ import Sobre from '../views/vw_about.vue';
 import EditUser from '../views/vw_edit_user.vue';
 import EditPerfil from '../views/vw_edit_perfil.vue';
 import Logout from '../views/vw_logout.vue';
-
+import EditarPerfilPessoal from '../views/vw_edit_user_cfg.vue';
 
 const routes = [
   {
@@ -39,6 +39,11 @@ const routes = [
     path: '/edit_perfil/:id',
     name: 'EditarPerfil',
     component: EditPerfil,
+  },
+  {
+    path: '/user/cfg',
+    name: 'EditarPerfilPessoal',
+    component: EditarPerfilPessoal,
   },
   {
     path: '/edit_user/:id',

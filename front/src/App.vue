@@ -1,8 +1,9 @@
 <template>
   <v-app>
+    <!-- Barra superior do app -->
     <v-app-bar>
       <template v-slot:prepend>
-        <v-app-bar-nav-icon color="primary" variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+        <v-app-bar-nav-icon color="primary" variant="text" @click.stop="menuPrincipal = !menuPrincipal"></v-app-bar-nav-icon>
       </template>
       <v-app-bar-title>App Treino</v-app-bar-title>
       <template v-slot:append>
@@ -13,14 +14,16 @@
         ></v-list-item>
       </template>
     </v-app-bar>
-    <v-navigation-drawer temporary v-model="drawer">
+    <!-- Menu Principal -->
+    <v-navigation-drawer temporary v-model="menuPrincipal">
       <v-divider></v-divider>
       <v-list-item v-for="(item, index) in itens" :key="`item_index_${index}`" :title="item.titulo"
         :prepend-icon="item.icone" link :to="item.link"></v-list-item>
     </v-navigation-drawer>
+    <!-- Menu do Usuário -->
     <v-navigation-drawer temporary v-model="userDrawer" location="right">
-      <v-list-item :title="`Perfil`"
-        prepend-icon="mdi-account-edit-outline" link to="/perfil"></v-list-item>
+      <v-list-item :title="`Perfil Pessoal`"
+        prepend-icon="mdi-account-edit-outline" link to="/user/cfg"></v-list-item>
       <v-divider></v-divider>
       <v-list-item :title="`Logout`"
         prepend-icon="mdi-logout" link to="/logout"></v-list-item>
@@ -45,7 +48,7 @@ export default {
   },
 
   data: () => ({
-    drawer: null,
+    menuPrincipal: null,
     userDrawer: null
   }),
   computed: {

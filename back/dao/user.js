@@ -5,7 +5,16 @@ const db = knex(knexfile.development);
 
 async function select() {
     return new Promise(async (resolve, reject) => {
-        await db('users').select('id', 'username', 'perfil_id').orderBy('id')
+        await db('users').select('id', 'username', 'perfil_id')
+        .column(db.raw(`
+            (
+                select row_to_json(t.*) 
+                from (
+                    select * from perfil p where p.id = users.perfil_id  
+                ) t
+            ) as perfil
+        `))
+        .orderBy('id')
             .then((resultado) => {
                 resolve(resultado)
             })
