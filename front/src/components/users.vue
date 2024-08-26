@@ -57,7 +57,7 @@
     </template> 
 
      </v-data-table>
-      <v-btn v-if="indiceEditado === -1" small elevation="" color="success" @click="novoUsuario()">
+      <v-btn v-if="indiceEditado === -1" small color="success" @click="novoUsuario()">
           + NOVO USUÁRIO
       </v-btn>     
 
@@ -83,7 +83,7 @@ export default {
     indiceEditado: -1,
     headers: [
       { key: 'id', title: 'ID' },
-      { key: 'username', title: 'Usuário' },
+      { key: 'nome_completo', title: 'Usuário' },
       { key: 'perfil.perfil', title: 'Perfil' },
       { key: 'actions', title: "Ações"  },
     ],
@@ -92,7 +92,7 @@ export default {
   methods: {
     async carregarUsuarios() {
       this.itens = await servicoUsuario.getUsers();
-      console.log(JSON.stringify(this.itens));
+      //console.log(JSON.stringify(this.itens));
     },
     abrirEditar(item) {
       this.indiceEditado = this.itens.indexOf(item);

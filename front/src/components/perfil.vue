@@ -39,7 +39,7 @@
       </template>
 
     </v-data-table>
-    <v-btn v-if="indiceEditado === -1" small elevation="" color="success" @click="novoPerfil()">
+    <v-btn v-if="indiceEditado === -1" small color="success" @click="novoPerfil()">
       + NOVO PERFIL
     </v-btn>
 

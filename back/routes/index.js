@@ -23,6 +23,9 @@ app.use('/perfil', require('./perfil.js'))
 // Rotas de acesso aos  usuários
 app.use('/user', require('./user.js'))
 
+// Rotas de acesso às imagens
+app.use('/imagem', require('./imagem.js'))
+
 module.exports = {
     app,
     http

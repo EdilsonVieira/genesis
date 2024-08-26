@@ -5,7 +5,7 @@ const db = knex(knexfile.development);
 
 async function select() {
     return new Promise(async (resolve, reject) => {
-        await db('users').select('id', 'username', 'perfil_id')
+        await db('users').select('id', 'username', 'perfil_id','nome_completo')
         .column(db.raw(`
             (
                 select row_to_json(t.*) 
@@ -26,7 +26,16 @@ async function select() {
 
 async function selectId(id) {
     return new Promise(async (resolve, reject) => {
-        await db('users').select('id', 'username', 'perfil_id').where({ id }).first()
+        await db('users').select('id', 'username', 'perfil_id','nome_completo')
+        .column(db.raw(`
+            (
+                select row_to_json(t.*) 
+                from (
+                    select * from perfil p where p.id = users.perfil_id  
+                ) t
+            ) as perfil
+        `))
+        .where({ id }).first()
             .then((resultado) => {
                 resolve(resultado)
             })
@@ -38,9 +47,12 @@ async function selectId(id) {
 
 async function insert(data) {
     return new Promise(async (resolve, reject) => {
-        const { username, password, perfil_id } = data;
+        const { username, password, perfil_id, nome_completo } = data;
         const hashedPassword = bcrypt.hashSync(password, 8);
-        await db('users').insert({ username, password: hashedPassword, perfil_id: perfil_id })
+        await db('users').insert({ username, password: hashedPassword, 
+                perfil_id: perfil_id,
+                nome_completo: nome_completo
+            })
             .then((res) => {
                 resolve(res);
             })
@@ -55,10 +67,10 @@ async function insert(data) {
 async function update(data) {
     return new Promise(async (resolve, reject) => {
 
-        const { id, username, password, perfil_id } = data;
+        const { id, username, password, perfil_id, nome_completo } = data;
         const hashedPassword = password ? bcrypt.hashSync(password, 8) : null;
 
-        let objUpd = { username };
+        let objUpd = { username, nome_completo };
         if (hashedPassword) {
             objUpd.password = hashedPassword;
         }

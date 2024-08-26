@@ -4,7 +4,7 @@ const auth = require('../dao/auth');
 
 function login(req, res) {
     const { username, password } = req.body;
-    console.log(`req.body:${JSON.stringify(req.body)}`)
+    //console.log(`req.body:${JSON.stringify(req.body)}`)
     if (!username) {
         return res.status(400).json({ message: 'Sem usuário!' });
     }

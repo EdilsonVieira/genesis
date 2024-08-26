@@ -10,6 +10,7 @@
         <v-sheet class="mx-auto" max-width="300">
           <v-form ref="form">
             <v-text-field v-model="editedUser.username" label="Username" required></v-text-field>
+            <v-text-field v-model="editedUser.nome_completo" label="Nome Completo"></v-text-field>
             <v-select :items="perfis" v-model="perfilSelecionado" label="Perfil"
               item-title="perfil" item-value="id" 
             ></v-select>
@@ -38,7 +39,8 @@ export default {
       username: '',
       password: '',
       confirmaPassword: '',
-      perfil_id: null
+      perfil_id: null,
+      nome_completo: ''
     },
     exibirModal: false,
     mensagem: '',
