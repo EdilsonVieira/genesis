@@ -6,12 +6,19 @@ import Perfis from '../views/vw_perfil.vue';
 import Sobre from '../views/vw_about.vue';
 import EditUser from '../views/vw_edit_user.vue';
 import EditPerfil from '../views/vw_edit_perfil.vue';
+import Logout from '../views/vw_logout.vue';
+
 
 const routes = [
   {
     path: '/',
     name: 'Login',
     component: Login,
+  },
+  {
+    path: '/logout',
+    name: 'Logout',
+    component: Logout,
   },
   {
     path: '/home',

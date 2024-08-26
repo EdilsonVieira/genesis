@@ -18,7 +18,6 @@ export default() => {
         let domain = (new URL(window.location));
         if (domain.pathname !== '/') {
           sessionStorage.clear();
-          localStorage.clear();
           window.location.href = `${domain.protocol}//${domain.hostname}:${domain.port}/`;
         }
       }

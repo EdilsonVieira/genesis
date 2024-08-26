@@ -1,2 +1,2 @@
 # genesis
-A basic app.
+A basic start web app.

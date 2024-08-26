@@ -1,4 +1,4 @@
-# my-vue-app
+# genesis-front
 
 ## Project setup
 ```

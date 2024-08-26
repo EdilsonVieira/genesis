@@ -5,18 +5,6 @@
   </div>
 </template>
 
-<!-- <script>
-export default {
-  name: 'Vw_Home',
-  data: () => ({
-    menu: null,
-  }),
-  mounted() {
-    this.menu = JSON.parse(localStorage.getItem('menu'));
-  }
-};
-</script> -->
-
 <script>
   export default {
     data: () => ({

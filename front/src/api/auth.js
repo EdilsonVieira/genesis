@@ -6,7 +6,7 @@ export default {
   async login(data) {
     const resultado = await api().post(`auth/login`, data);
     const token = resultado.data.token;
-    localStorage.setItem('token', token);
+    sessionStorage.setItem('token', token);
     return resultado.data;
   },
 

@@ -25,7 +25,7 @@
 
 <script>
 
-import servicoLogin from "../api/login";
+import servicoAuth from "../api/auth";
 import Modal from "./modal.vue"
 
 export default {
@@ -46,11 +46,11 @@ export default {
   methods: {
     async login() {
       //console.log(JSON.stringify(this.credenciais))
-      await servicoLogin.login(this.credenciais)
+      await servicoAuth.login(this.credenciais)
         .then((res) => {
           console.log(`login: ${JSON.stringify(res)}`);
           console.log(`menu: ${JSON.stringify(res.menu)}`);
-          localStorage.setItem('menu', JSON.stringify(res.menu));
+          sessionStorage.setItem('menu', JSON.stringify(res.menu));
           this.$router.push('/home');
         })
         .catch(() => {
@@ -65,3 +65,4 @@ export default {
 };
 
 </script>
+../api/auth
