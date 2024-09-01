@@ -83,7 +83,8 @@ export default {
     indiceEditado: -1,
     headers: [
       { key: 'id', title: 'ID' },
-      { key: 'nome_completo', title: 'Usuário' },
+      { key: 'nome_completo', title: 'Nome' },
+      { key: 'username', title: 'Usuário' },
       { key: 'perfil.perfil', title: 'Perfil' },
       { key: 'actions', title: "Ações"  },
     ],
