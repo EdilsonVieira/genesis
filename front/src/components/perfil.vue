@@ -73,7 +73,7 @@ export default {
   methods: {
     async carregarPerfis() {
       this.itens = await servicoPerfil.getPerfis();
-      console.log(JSON.stringify(this.itens));
+      //console.log(JSON.stringify(this.itens));
     },
     abrirEditar(item) {
       this.indiceEditado = this.itens.indexOf(item);

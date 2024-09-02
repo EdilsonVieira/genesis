@@ -49,20 +49,33 @@ export default {
 
   data: () => ({
     menuPrincipal: null,
-    userDrawer: null
+    userDrawer: null,
+    menuItens: []
   }),
+  
+  watch: {
+    '$route'() {
+      this.carregarMenu(); // Recarrega o menu sempre que a rota mudar
+    }
+  },
+
   computed: {
     itens() {
+      return this.menuItens;
+    }
+  },
+  methods: {
+    carregarMenu() {
       try {
-        return JSON.parse(sessionStorage.getItem('menu'));
+        this.menuItens = JSON.parse(sessionStorage.getItem('menu'));
       } catch (e) {
         console.error(e);
-        return ['Erro ao buscar o menu']
+        this.menuItens = ['Erro ao buscar o menu'];
       }
     }
   },
   mounted() {
-
+    this.carregarMenu();
   }
 }
 </script>
