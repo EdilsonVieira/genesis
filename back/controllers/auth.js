@@ -18,7 +18,9 @@ function login(req, res) {
                 return res.status(401).json({ message: 'Credenciais inválidas' });
             }
             const token = jwt.sign({ id: user.id }, 'IYYIFGDJKFLDJFGLDFJDFHGIRRII', { expiresIn: '1h' });
-            res.json({ token, menu: user.menu });
+            const result = { token, user };
+            //console.log(JSON.stringify(result,null,2));
+            res.json(result);
         })
         .catch((e) => {
             console.log(e);

@@ -48,9 +48,11 @@ export default {
       //console.log(JSON.stringify(this.credenciais))
       await servicoAuth.login(this.credenciais)
         .then((res) => {
-          //console.log(`login: ${JSON.stringify(res)}`);
+          console.log(`login: ${JSON.stringify(res)}`);
           //console.log(`menu: ${JSON.stringify(res.menu)}`);
-          sessionStorage.setItem('menu', JSON.stringify(res.menu));
+          sessionStorage.setItem('menu', JSON.stringify(res.user.menu));
+          this.config.loginInfo = res;
+          console.log(`this.config: ${JSON.stringify(this.config,null,2)}`);
           this.$router.push('/home');
         })
         .catch(() => {

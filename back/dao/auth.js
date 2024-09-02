@@ -10,6 +10,7 @@ async function login(data) {
         db.select('*')
             .from('users')
             .leftJoin('perfil', 'perfil.id', 'users.perfil_id')
+            .leftJoin('config', 'config.owner', 'users.id')
             .where({ username })
             .first()
             .then((user) => {

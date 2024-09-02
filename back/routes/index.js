@@ -26,6 +26,9 @@ app.use('/user', require('./user.js'))
 // Rotas de acesso às imagens
 app.use('/imagem', require('./imagem.js'))
 
+// Rotas de acesso às configurações
+app.use('/config', require('./config.js'))
+
 module.exports = {
     app,
     http

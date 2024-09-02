@@ -133,6 +133,7 @@ export default {
     // .catch((e)=>{
     //   console.error(JSON.stringify(e));
     // });
+    console.log(JSON.stringify(this.config));
   }
 };
 

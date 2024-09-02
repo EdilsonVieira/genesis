@@ -5,10 +5,10 @@
       <template v-slot:prepend>
         <v-app-bar-nav-icon color="primary" variant="text" @click.stop="menuPrincipal = !menuPrincipal"></v-app-bar-nav-icon>
       </template>
-      <v-app-bar-title>App Treino</v-app-bar-title>
+      <v-app-bar-title>{{this.config.systemConfig?.appName}}</v-app-bar-title>
       <template v-slot:append>
         <v-list-item prepend-avatar="https://randomuser.me/api/portraits/women/17.jpg" 
-          title="App Treino"
+          :title="this.config.loginInfo?.user?.nome_completo"
           subtitle="Vuetify"
           @click.stop="userDrawer = !userDrawer"
         ></v-list-item>
@@ -76,6 +76,7 @@ export default {
   },
   mounted() {
     this.carregarMenu();
+    //console.log(this.config.loginInfo.user.nome_completo);
   }
 }
 </script>
