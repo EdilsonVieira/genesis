@@ -8,7 +8,7 @@
       <v-app-bar-title>{{this.config.systemConfig?.appName}}</v-app-bar-title>
       <template v-slot:append>
         <v-list-item prepend-avatar="https://randomuser.me/api/portraits/women/17.jpg" 
-          :title="this.config.loginInfo?.user?.nome_completo"
+          :title="titulo"
           subtitle="Vuetify"
           @click.stop="userDrawer = !userDrawer"
         ></v-list-item>
@@ -62,6 +62,13 @@ export default {
   computed: {
     itens() {
       return this.menuItens;
+    },
+    titulo() {
+      if (this.config.loginInfo?.user?.nome_completo) {
+        return this.config.loginInfo.user.nome_completo;
+      } else {
+        return ''
+      }
     }
   },
   methods: {
