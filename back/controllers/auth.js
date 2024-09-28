@@ -17,9 +17,10 @@ function login(req, res) {
             if (!user || !bcrypt.compareSync(password, user.password)) {
                 return res.status(401).json({ message: 'Credenciais inválidas' });
             }
+            // Token com duração de uma hora
             const token = jwt.sign({ id: user.id }, 'IYYIFGDJKFLDJFGLDFJDFHGIRRII', { expiresIn: '1h' });
+            delete user.password;
             const result = { token, user };
-            //console.log(JSON.stringify(result,null,2));
             res.json(result);
         })
         .catch((e) => {
