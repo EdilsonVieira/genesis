@@ -29,9 +29,6 @@ const salvarArquivo = async (data,dir='\\routes\\public\\img\\hotel\\') => {
 
 const inserirImagem = async (data) => {
     return new Promise(async (resolve, reject) => {
-        if (!data.idusuario) {
-            data.idusuario = 1
-        }
         if (!data.hasOwnProperty('deleteold')) {
             data.deleteold = true
         }
@@ -45,6 +42,7 @@ const inserirImagem = async (data) => {
                 created_at: dayjs().format('YYYY-MM-DD HH:mm:ss')
             }
             const idimagem = await trx('imagem').insert(dadosimagem, 'id');
+            console.log(`idimagem: ${JSON.stringify(idimagem)}`)
             // Excluir a antiga se houver, a não ser se deleteold seja false...
             if (data.deleteold) {
                 const selResult = await trx(data.tabela).select(data.fk).where({[data.chave]: data.valor})
@@ -74,12 +72,14 @@ const inserirImagem = async (data) => {
             }
             // Atualizar a fk...
             const fk = {
-                [data.fk]: idimagem[0]
+                [data.fk]: idimagem[0][data.chave]
             }
             const key = {
                 [data.chave]: data.valor
             }
             // console.log(JSON.stringify(fk))
+            console.log(`data.tabela: ${data.tabela}`)
+            console.log(`fk: ${JSON.stringify(fk)}`)
             await trx(data.tabela).where(key).update(fk);
             const result = {
                 imagem: idimagem[0]
@@ -122,8 +122,10 @@ const atualizarImagem = async (data) => {
                 reject(e);
             })
         } else {
-            e.code = 400;
-            e.message = 'O id da imagem é obrigatório para atualização.'
+            const e = {
+                code: 400,
+                message: 'O id da imagem é obrigatório para atualização.'
+            }
             reject(e);            
         }
     })    
@@ -165,7 +167,9 @@ const selecionarImagem = (data) => {
         aQuery = db.raw(sqlStmt);
 
         aQuery.then(resp => {
-            resolve(resp.rows);
+            let resultado = resp.rows;
+            if (resultado.length === 1) resultado = resp.rows[0];
+            resolve(resultado);
         })
         .catch(e => {
             e.code = 500;

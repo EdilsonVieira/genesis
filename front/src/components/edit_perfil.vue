@@ -51,14 +51,14 @@ export default {
 
   methods: {
     onJsonChange(novoMenu) {
-      console.log(novoMenu)
+      //console.log(novoMenu)
       this.menuEditado = novoMenu;
     },
     async salvar() {
       this.editPerfil.menu = this.menuEditado;
       await servicoPerfil.updatePerfil(this.editPerfil)
-        .then((res) => {
-          console.log(JSON.stringify(res));
+        .then(() => {
+          //console.log(JSON.stringify(res));
           this.mensagem = `Perfil salvo com sucesso!`
           this.exibirModal = true;
         })

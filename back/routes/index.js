@@ -6,7 +6,7 @@ const app = express();
 // Criar servidor http....
 const http = require('http').createServer(app);
 
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
 
 // Definir o uso de URL codificada...
 app.use(express.urlencoded({ extended: true }))

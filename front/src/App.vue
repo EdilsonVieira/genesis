@@ -7,11 +7,17 @@
       </template>
       <v-app-bar-title>{{this.config.systemConfig?.appName}}</v-app-bar-title>
       <template v-slot:append>
-        <v-list-item prepend-avatar="https://randomuser.me/api/portraits/women/17.jpg" 
-          :title="titulo"
-          subtitle="Vuetify"
-          @click.stop="userDrawer = !userDrawer"
-        ></v-list-item>
+        <v-row class="ponteiro" @click.stop="userDrawer = !userDrawer">
+          <img v-if="avatarSrc" class="avatar"
+                :src="'data:' + avatarTipo + ';base64,' + avatarSrc"
+                :id="`imagem_perfil_pessoal_img`" />
+          <v-icon style="align-self: center;" v-else>mdi-account-outline</v-icon>
+          <v-list-item 
+            :title="titulo"
+            subtitle="Vuetify"
+            
+          ></v-list-item>
+        </v-row>
       </template>
     </v-app-bar>
     <!-- Menu Principal -->
@@ -39,7 +45,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'app',
 
@@ -52,7 +57,6 @@ export default {
     userDrawer: null,
     menuItens: []
   }),
-  
   watch: {
     '$route'() {
       this.carregarMenu(); // Recarrega o menu sempre que a rota mudar
@@ -60,6 +64,12 @@ export default {
   },
 
   computed: {
+    avatarSrc() {
+      return sessionStorage.getItem('avatarDados');
+    },
+    avatarTipo() {
+      return sessionStorage.getItem('avatarTipo');
+    },
     itens() {
       return this.menuItens;
     },
@@ -69,7 +79,7 @@ export default {
       } else {
         return ''
       }
-    }
+    },
   },
   methods: {
     carregarMenu() {
@@ -83,7 +93,8 @@ export default {
   },
   mounted() {
     this.carregarMenu();
-    //console.log(this.config.loginInfo.user.nome_completo);
+    console.log(`this.config.avatar (App)`);
+    console.log(this.config.avatar);
   }
 }
 </script>
@@ -103,5 +114,16 @@ nav a {
 
 nav a.router-link-exact-active {
   font-weight: bold;
+}
+
+.avatar {
+  width: 50px; /* Defina o tamanho desejado */
+  height: 50px;
+  border-radius: 50%; /* Faz a imagem ficar circular */
+  object-fit: cover; /* Garante que a imagem se ajuste corretamente dentro do círculo */
+  border: 2px solid #ccc; /* (Opcional) Adiciona uma borda ao redor da imagem */
+}
+.ponteiro {
+  cursor: pointer;
 }
 </style>

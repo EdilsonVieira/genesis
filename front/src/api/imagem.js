@@ -9,8 +9,9 @@ const config = () => {
   }
 }
 export default {
-  buscarImagem(id) {
-    const resultado = api().get(`/imagem/select/${id}`, config());
+  async buscarImagem(id) {
+    const resultado = await api().get(`/imagem/select/${id}`, config());
+    //console.log(`Em buscar imagem length: ${JSON.stringify(resultado.data)}`)
     return resultado.data;
   },
   criarImagem(data) {

@@ -1,15 +1,16 @@
 <template>
   <v-container>
     <v-card class="mx-auto" max-width="400">
-      <v-img class="align-end text-white" height="200" src="https://randomuser.me/api/portraits/women/17.jpg" cover>
+      <!-- <v-img class="align-end text-white" height="200" src="https://randomuser.me/api/portraits/women/17.jpg" cover> -->
         <v-card-title>
           <v-icon color="primary" icon="mdi-file-edit-outline"></v-icon>
-          <span>Editando o perfil pessoal</span>
+          <VSpacer></VSpacer>
+          <span>Atualizar Perfil pessoal</span>
         </v-card-title>
-      </v-img>
+      <!-- </v-img> -->
 
       <v-card-subtitle class="pt-4">
-        <h3 v-if="!imagemSrcPerfilPessoal">Clique no ícone para definir uma imagem para o perfil pessoal.</h3>
+        <h3 v-if="!imagemSrcPerfilPessoal">Clique no ícone para definir a imagem do perfil.</h3>
         <h3 v-if="imagemSrcPerfilPessoal">Clique na imagem para escolher outro arquivo.</h3>
       </v-card-subtitle>
 
@@ -20,7 +21,7 @@
               <v-icon color="green-darken-2" icon="mdi-account-outline" size="large"></v-icon>
             </div>
             <img class="img-config quadriculado" v-if="imagemSrcPerfilPessoal"
-              :src="'data:' + userCfg.tipoImgPerfilPessoal + ';base64,' + imagemSrcPerfilPessoal"
+              :src="'data:' + tipoImgPerfilPessoal + ';base64,' + imagemSrcPerfilPessoal"
               :id="`imagem_perfil_pessoal_img`" />
           </label>
           <input :id="`imagem_perfil_pessoal_input`" :name="`imagem_perfil_pessoal_input`"
@@ -54,14 +55,14 @@ export default {
     userCfg: {
       username: '',
       password: '',
-      confirmaPassword: '',
-      tipoImgPerfilPessoal: null
+      confirmaPassword: ''
     },
     exibirModal: false,
     mensagem: '',
-    perfis: [],
-    perfilSelecionado: null,
+    tipoImgPerfilPessoal: null,
     imagemSrcPerfilPessoal: null,
+    user_id: null,
+    avatar_id: null
   }),
 
   methods: {
@@ -69,7 +70,7 @@ export default {
       serializarImagem(e, 0.5).then(resp => {
         this.imagemSrcPerfilPessoal = resp.dados
         this.tipoImgPerfilPessoal = resp.tipo
-        if (this.userCfg.id > 0) {
+        if (this.user_id > 0) {
           this.salvarImagem(resp.tipo, resp.dados, 'avatar_id');
         }
       }).catch(er => {
@@ -81,35 +82,33 @@ export default {
         console.error("Imagem inválida!");
         return;
       }
-      const userId = (this.usuario?.id?this.usuario.id:1);
+      const userId = sessionStorage.getItem('user_id');
       var params = {
+        "id": this.avatar_id,
         "tipo": tipoImg,
-        "nome": `Imagem_Perfil_Pessoal ${userId}`,
+        "nome": `Imagem_Perfil_Pessoal_${userId}`,
         "dados": img,
         "tabela": "users",
         "fk": `${campo}`,
         "chave": "id",
         "valor": userId,
-        "idusuario": userId,
         "deleteold": true
       }
       //console.error(JSON.stringify(params))
-      servicoImagem.atualizarImagem(params)
+      const cmd = params.id > 0 ? servicoImagem.atualizarImagem : servicoImagem.criarImagem;
+      cmd(params)
         .then(() => {
-          console.log('Imagem atualizada:');
+          //console.log('Imagem atualizada:');
+          this.$forceUpdate();
         })
         .catch((error) => {
           console.log('Erro ao salvar imagem!');
           console.log(error.response);
         });
     },
-    pickImage() {
-      console.log(`pickImage`)
-    },
     async salvar() {
       //console.log(JSON.stringify(this.credenciais))
       this.userCfg.password = null;
-      this.userCfg.perfil_id = this.perfilSelecionado;
       await servicoUsuario.updateUser(this.userCfg)
         .then((res) => {
           console.log(JSON.stringify(res));
@@ -124,16 +123,11 @@ export default {
   },
 
   async mounted() {
-    // servicoPerfil.getPerfis()
-    // .then(async (res) => {
-    //   this.perfis = res;
-    //   this.userCfg = await servicoUsuario.getUser(this.$route.params.id);
-    //   this.perfilSelecionado = this.userCfg.perfil_id;
-    // })
-    // .catch((e)=>{
-    //   console.error(JSON.stringify(e));
-    // });
-    console.log(JSON.stringify(this.config));
+    console.log(JSON.stringify(this.config,null,2));
+    this.user_id = parseInt(sessionStorage.getItem('user_id'));
+    this.avatar_id = parseInt(sessionStorage.getItem('avatar_id'));
+    this.imagemSrcPerfilPessoal = sessionStorage.getItem('avatarDados');
+    this.tipoImgPerfilPessoal = sessionStorage.getItem('avatarTipo');
   }
 };
 

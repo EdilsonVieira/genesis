@@ -22,6 +22,7 @@ const app = createApp(App).use(vuetify).use(router)
 import servico_config from './api/config'
 servico_config.buscar().then((config)=>{
    app.config.globalProperties.config = config;
+   config.avatar = {tipo:'',dados:''};
     app.mount('#app');
     // app.use(GAuth, gAuthOptions);
     // app.mount('#app');

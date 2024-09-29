@@ -26,6 +26,7 @@
 <script>
 
 import servicoAuth from "../api/auth";
+import servicoImagem from "../api/imagem";
 import Modal from "./modal.vue"
 
 export default {
@@ -44,15 +45,32 @@ export default {
   }),
 
   methods: {
+    async bufferToBase64(buffer) {
+      let binary = '';
+      let bytes = new Uint8Array(buffer.data);
+      let len = bytes.byteLength;      
+      for (let i = 0; i < len; i++) {
+        binary += String.fromCharCode(bytes[i]);
+      }      
+      return btoa(binary);
+    },
     async login() {
       //console.log(JSON.stringify(this.credenciais))
       await servicoAuth.login(this.credenciais)
-        .then((res) => {
-          console.log(`login: ${JSON.stringify(res)}`);
-          //console.log(`menu: ${JSON.stringify(res.menu)}`);
+        .then(async (res) => {
           sessionStorage.setItem('menu', JSON.stringify(res.user.menu));
+          sessionStorage.setItem('user_id', JSON.stringify(res.user.id));
+          sessionStorage.setItem('avatar_id', JSON.stringify(res.user.avatar_id));
+          sessionStorage.setItem('username', JSON.stringify(res.user.username));
+          sessionStorage.setItem('nome_completo', JSON.stringify(res.user.nome_completo));
           this.config.loginInfo = res;
-          console.log(`this.config: ${JSON.stringify(this.config,null,2)}`);
+          const imgObj = await servicoImagem.buscarImagem(this.config.loginInfo.user.avatar_id);
+          //const imgData = await this.bufferToBase64(imgObj.dados);
+          var Buffer = require('buffer/').Buffer;
+          const imgData = Buffer.from(imgObj.dados).toString()
+          sessionStorage.setItem('avatarDados', imgData);
+          sessionStorage.setItem('avatarTipo', imgObj.tipo);
+          this.$forceUpdate();
           this.$router.push('/home');
         })
         .catch(() => {
